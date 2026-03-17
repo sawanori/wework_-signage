@@ -12,6 +12,7 @@ export async function PUT(request: Request): Promise<Response> {
   }
 
   let body: {
+    deviceId?: string;
     playlistId?: number;
     fadeDurationMs?: number;
     intervalMs?: number;
@@ -27,9 +28,13 @@ export async function PUT(request: Request): Promise<Response> {
     );
   }
 
-  if (body.playlistId === undefined) {
+  // Accept either deviceId or playlistId
+  const deviceId = body.deviceId;
+  const playlistId = body.playlistId;
+
+  if (!deviceId && playlistId === undefined) {
     return NextResponse.json(
-      { error: 'playlistId is required', code: 'MISSING_FIELDS' },
+      { error: 'deviceId or playlistId is required', code: 'MISSING_FIELDS' },
       { status: 400 },
     );
   }
@@ -61,12 +66,22 @@ export async function PUT(request: Request): Promise<Response> {
     }
 
     fields.push('version = ?', 'updated_at = unixepoch()');
-    args.push(generateVersion(), body.playlistId);
+    args.push(generateVersion());
 
-    await db.execute({
-      sql: `UPDATE playlists SET ${fields.join(', ')} WHERE id = ?`,
-      args,
-    });
+    // Use deviceId if provided, otherwise playlistId
+    if (deviceId) {
+      args.push(deviceId);
+      await db.execute({
+        sql: `UPDATE playlists SET ${fields.join(', ')} WHERE device_id = ?`,
+        args,
+      });
+    } else {
+      args.push(playlistId!);
+      await db.execute({
+        sql: `UPDATE playlists SET ${fields.join(', ')} WHERE id = ?`,
+        args,
+      });
+    }
 
     return NextResponse.json({ success: true });
   } catch (error) {
