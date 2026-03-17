@@ -232,6 +232,26 @@ body {
   animation: slideIn 0.3s var(--ease-out) forwards;
 }
 
+/* Preview: Pattern C (blur background + contain foreground) */
+.preview-bg-blur {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  filter: blur(40px) brightness(0.5);
+  transform: scale(1.1);
+  z-index: 1;
+}
+
+.preview-fg-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  z-index: 2;
+}
+
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
