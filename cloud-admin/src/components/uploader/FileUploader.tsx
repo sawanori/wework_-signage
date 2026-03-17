@@ -111,7 +111,7 @@ export function FileUploader({ onUploadComplete }: FileUploaderProps) {
   const isUploading = state.status === 'uploading' || state.status === 'requesting';
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
       {/* Drop zone */}
       <div
         onClick={handleClick}
@@ -125,37 +125,47 @@ export function FileUploader({ onUploadComplete }: FileUploaderProps) {
           if (e.key === 'Enter' || e.key === ' ') handleClick();
         }}
         style={{
-          border: `2px dashed ${isDragging ? '#007AFF' : 'var(--gray-4, #D1D1D6)'}`,
-          borderRadius: '18px',
-          padding: '48px 32px',
+          border: `1px dashed ${isDragging ? '#3B82F6' : '#2A2A2A'}`,
+          borderRadius: '10px',
+          padding: '40px 32px',
           textAlign: 'center',
           cursor: isUploading ? 'default' : 'pointer',
-          background: isDragging ? 'rgba(0, 122, 255, 0.04)' : 'transparent',
-          transition: 'all 0.2s cubic-bezier(0, 0, 0.58, 1)',
+          background: isDragging ? 'rgba(59, 130, 246, 0.04)' : 'transparent',
+          transition: 'border-color 0.15s ease, background 0.15s ease',
           outline: 'none',
-          animation: 'fadeInUp 0.4s cubic-bezier(0, 0, 0.58, 1) forwards',
+        }}
+        onMouseEnter={(e) => {
+          if (!isDragging && !isUploading) {
+            (e.currentTarget as HTMLDivElement).style.borderColor = '#3A3A3A';
+          }
+        }}
+        onMouseLeave={(e) => {
+          if (!isDragging) {
+            (e.currentTarget as HTMLDivElement).style.borderColor = '#2A2A2A';
+          }
         }}
       >
         {/* Upload icon */}
         <div
           style={{
-            width: '56px',
-            height: '56px',
-            margin: '0 auto 16px',
-            background: isDragging ? 'rgba(0, 122, 255, 0.12)' : 'var(--gray-6, #F2F2F7)',
-            borderRadius: '18px',
+            width: '48px',
+            height: '48px',
+            margin: '0 auto 14px',
+            background: isDragging ? 'rgba(59, 130, 246, 0.1)' : '#1C1C1C',
+            border: `1px solid ${isDragging ? 'rgba(59,130,246,0.3)' : '#2A2A2A'}`,
+            borderRadius: '12px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            transition: 'background 0.2s',
+            transition: 'all 0.15s ease',
           }}
         >
           <svg
-            width="24"
-            height="24"
+            width="20"
+            height="20"
             viewBox="0 0 24 24"
             fill="none"
-            stroke={isDragging ? '#007AFF' : '#8E8E93'}
+            stroke={isDragging ? '#3B82F6' : '#6B6B6B'}
             strokeWidth="1.5"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -168,11 +178,12 @@ export function FileUploader({ onUploadComplete }: FileUploaderProps) {
 
         <p
           style={{
-            margin: '0 0 8px',
-            fontSize: '17px',
-            fontWeight: 600,
-            color: isDragging ? '#007AFF' : 'var(--text-primary, #1D1D1F)',
-            letterSpacing: '-0.02em',
+            margin: '0 0 6px',
+            fontSize: '14px',
+            fontWeight: 500,
+            color: isDragging ? '#3B82F6' : '#FAFAFA',
+            letterSpacing: '-0.01em',
+            transition: 'color 0.15s ease',
           }}
         >
           {isDragging ? 'ここにドロップ' : 'ファイルをドロップ、またはクリックして選択'}
@@ -180,8 +191,8 @@ export function FileUploader({ onUploadComplete }: FileUploaderProps) {
         <p
           style={{
             margin: 0,
-            fontSize: '13px',
-            color: 'var(--text-secondary, #6E6E73)',
+            fontSize: '12px',
+            color: '#6B6B6B',
             letterSpacing: '-0.01em',
           }}
         >
@@ -203,18 +214,18 @@ export function FileUploader({ onUploadComplete }: FileUploaderProps) {
       {pdfPageWarning && (
         <div
           style={{
-            background: 'rgba(255, 149, 0, 0.08)',
-            border: '1px solid rgba(255, 149, 0, 0.3)',
-            borderRadius: '12px',
-            padding: '12px 16px',
-            animation: 'fadeIn 0.3s cubic-bezier(0, 0, 0.58, 1) forwards',
+            background: 'rgba(249, 115, 22, 0.08)',
+            border: '1px solid rgba(249, 115, 22, 0.2)',
+            borderRadius: '8px',
+            padding: '10px 14px',
+            animation: 'fadeIn 0.3s ease forwards',
           }}
         >
           <p
             style={{
               margin: 0,
-              fontSize: '13px',
-              color: '#FF9500',
+              fontSize: '12px',
+              color: '#F97316',
               letterSpacing: '-0.01em',
             }}
           >
@@ -237,7 +248,7 @@ export function FileUploader({ onUploadComplete }: FileUploaderProps) {
 
       {/* File size info for selected file */}
       {currentFile && state.status === 'idle' && (
-        <p style={{ margin: 0, fontSize: '13px', color: 'var(--text-secondary, #6E6E73)' }}>
+        <p style={{ margin: 0, fontSize: '12px', color: '#6B6B6B' }}>
           {currentFile.name} — {formatFileSize(currentFile.size)}
         </p>
       )}

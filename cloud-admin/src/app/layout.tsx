@@ -13,22 +13,32 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja">
-      <body className="bg-bg-secondary min-h-screen">
-        {/* Glassmorphism Navigation Bar */}
+      <body style={{ background: '#0A0A0A', minHeight: '100vh' }}>
+        {/* Industrial Navigation Bar */}
         <nav
-          className="nav-glass flex items-center px-8"
-          style={{ height: '48px' }}
+          className="ind-nav"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            padding: '0 32px',
+            height: '56px',
+          }}
         >
           <span
-            className="text-headline"
-            style={{ color: 'var(--text-primary)', letterSpacing: '-0.02em' }}
+            style={{
+              fontSize: '13px',
+              fontWeight: 700,
+              color: '#FAFAFA',
+              letterSpacing: '0.02em',
+              textTransform: 'uppercase',
+            }}
           >
             OG Signage
           </span>
         </nav>
         {/* Main content pushed below nav */}
         <main
-          style={{ paddingTop: '64px', minHeight: 'calc(100vh - 48px)' }}
+          style={{ paddingTop: '72px', minHeight: 'calc(100vh - 56px)' }}
         >
           {children}
         </main>

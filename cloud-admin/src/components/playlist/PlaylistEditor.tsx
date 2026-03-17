@@ -31,8 +31,8 @@ export function PlaylistEditor({
     <div
       style={{
         display: 'grid',
-        gridTemplateColumns: '1fr 320px',
-        gap: '24px',
+        gridTemplateColumns: '1fr 300px',
+        gap: '20px',
         alignItems: 'start',
       }}
     >
@@ -43,27 +43,29 @@ export function PlaylistEditor({
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            marginBottom: '24px',
+            marginBottom: '16px',
           }}
         >
           <h2
             style={{
               margin: 0,
-              fontSize: '17px',
-              fontWeight: 600,
-              color: 'var(--text-primary, #1D1D1F)',
-              letterSpacing: '-0.02em',
+              fontSize: '14px',
+              fontWeight: 500,
+              color: '#FAFAFA',
+              letterSpacing: '-0.01em',
             }}
           >
             プレイリスト
           </h2>
           <span
             style={{
-              fontSize: '13px',
-              color: 'var(--text-secondary, #6E6E73)',
-              background: 'var(--bg-grouped, #F2F2F7)',
-              borderRadius: '980px',
-              padding: '4px 10px',
+              fontSize: '11px',
+              color: '#6B6B6B',
+              background: '#1C1C1C',
+              border: '1px solid #2A2A2A',
+              borderRadius: '4px',
+              padding: '3px 8px',
+              letterSpacing: '0.02em',
             }}
           >
             {playlist.items.length} 件
@@ -75,24 +77,25 @@ export function PlaylistEditor({
             style={{
               textAlign: 'center',
               padding: '48px 24px',
-              color: 'var(--text-tertiary, #86868B)',
+              color: '#6B6B6B',
             }}
           >
             <div
               style={{
-                width: '48px',
-                height: '48px',
-                margin: '0 auto 16px',
-                background: 'var(--bg-grouped, #F2F2F7)',
-                borderRadius: '12px',
+                width: '44px',
+                height: '44px',
+                margin: '0 auto 14px',
+                background: '#1C1C1C',
+                border: '1px solid #2A2A2A',
+                borderRadius: '10px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
               }}
             >
               <svg
-                width="24"
-                height="24"
+                width="20"
+                height="20"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -103,10 +106,10 @@ export function PlaylistEditor({
                 <path d="M9 21V9" />
               </svg>
             </div>
-            <p style={{ margin: 0, fontSize: '15px' }}>
+            <p style={{ margin: 0, fontSize: '14px', color: '#A1A1A1' }}>
               プレイリストにアイテムがありません
             </p>
-            <p style={{ margin: '4px 0 0', fontSize: '13px' }}>
+            <p style={{ margin: '4px 0 0', fontSize: '12px', color: '#6B6B6B' }}>
               上のアップローダーからファイルを追加してください
             </p>
           </div>

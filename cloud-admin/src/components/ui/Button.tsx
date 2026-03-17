@@ -14,22 +14,22 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 const variantStyles: Record<ButtonVariant, React.CSSProperties> = {
   primary: {
-    background: '#007AFF',
-    color: 'white',
+    background: '#FFFFFF',
+    color: '#000000',
     border: 'none',
   },
   secondary: {
     background: 'transparent',
-    color: '#007AFF',
+    color: '#A1A1A1',
     border: 'none',
   },
   outline: {
     background: 'transparent',
-    color: '#007AFF',
-    border: '2px solid #007AFF',
+    color: '#FAFAFA',
+    border: '1px solid #2A2A2A',
   },
   danger: {
-    background: '#FF3B30',
+    background: '#EF4444',
     color: 'white',
     border: 'none',
   },
@@ -37,19 +37,36 @@ const variantStyles: Record<ButtonVariant, React.CSSProperties> = {
 
 const sizeStyles: Record<ButtonSize, React.CSSProperties> = {
   sm: {
-    padding: '8px 16px',
-    fontSize: '14px',
+    padding: '6px 12px',
+    fontSize: '13px',
     minWidth: '60px',
   },
   md: {
-    padding: '12px 24px',
-    fontSize: '17px',
-    minWidth: '100px',
+    padding: '8px 16px',
+    fontSize: '14px',
+    minWidth: '80px',
   },
   lg: {
-    padding: '16px 32px',
-    fontSize: '21px',
-    minWidth: '140px',
+    padding: '10px 20px',
+    fontSize: '15px',
+    minWidth: '120px',
+  },
+};
+
+const variantHoverStyles: Record<ButtonVariant, React.CSSProperties> = {
+  primary: {
+    background: 'rgba(255,255,255,0.9)',
+  },
+  secondary: {
+    background: 'rgba(255,255,255,0.06)',
+    color: '#FAFAFA',
+  },
+  outline: {
+    background: 'rgba(255,255,255,0.06)',
+    borderColor: '#3A3A3A',
+  },
+  danger: {
+    background: '#DC2626',
   },
 };
 
@@ -70,32 +87,22 @@ export function Button({
   const [isPressed, setIsPressed] = React.useState(false);
 
   const baseStyle: React.CSSProperties = {
-    borderRadius: '980px',
+    borderRadius: '8px',
     cursor: disabled || loading ? 'not-allowed' : 'pointer',
-    transition: 'all 0.2s cubic-bezier(0, 0, 0.58, 1)',
+    transition: 'all 0.15s ease',
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: '8px',
-    fontFamily:
-      "-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif",
+    gap: '6px',
+    fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif",
     fontWeight: 500,
-    lineHeight: 1.24,
-    letterSpacing: '-0.02em',
-    opacity: disabled || loading ? 0.5 : 1,
-    transform: isPressed
-      ? 'scale(0.98)'
-      : isHovered && !disabled && !loading && variant === 'primary'
-        ? 'scale(1.02)'
-        : 'scale(1)',
+    lineHeight: 1.4,
+    letterSpacing: '-0.01em',
+    opacity: disabled || loading ? 0.4 : 1,
+    transform: isPressed ? 'scale(0.98)' : 'scale(1)',
     ...variantStyles[variant],
     ...sizeStyles[size],
-    ...(isHovered && !disabled && !loading && variant === 'primary'
-      ? { background: '#0071E3' }
-      : {}),
-    ...(isHovered && !disabled && !loading && variant === 'outline'
-      ? { background: '#007AFF', color: 'white' }
-      : {}),
+    ...(isHovered && !disabled && !loading ? variantHoverStyles[variant] : {}),
     ...style,
   };
 
@@ -127,9 +134,9 @@ export function Button({
           <span
             style={{
               display: 'inline-block',
-              width: '14px',
-              height: '14px',
-              border: '2px solid currentColor',
+              width: '12px',
+              height: '12px',
+              border: '1.5px solid currentColor',
               borderTopColor: 'transparent',
               borderRadius: '50%',
               animation: 'spin 0.8s linear infinite',

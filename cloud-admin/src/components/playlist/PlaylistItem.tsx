@@ -46,18 +46,17 @@ export function PlaylistItemCard({
       style={{
         display: 'flex',
         alignItems: 'center',
-        gap: '16px',
-        background: '#FFFFFF',
-        borderRadius: '14px',
-        padding: '12px 16px',
-        boxShadow: isDragging
-          ? '0 12px 36px rgba(0, 0, 0, 0.15)'
-          : '0 2px 8px rgba(0, 0, 0, 0.04)',
-        opacity: isDragging ? 0.9 : 1,
-        transform: isDragging ? 'scale(1.02)' : 'scale(1)',
-        transition: isDragging ? 'none' : 'all 0.2s cubic-bezier(0, 0, 0.58, 1)',
+        gap: '12px',
+        background: isDragging ? '#1C1C1C' : isHovered ? '#181818' : '#141414',
+        borderRadius: '10px',
+        padding: '10px 14px',
+        border: isDragging
+          ? '1px solid #3A3A3A'
+          : '1px solid #2A2A2A',
+        opacity: isDragging ? 0.95 : 1,
+        transform: isDragging ? 'scale(1.01)' : 'scale(1)',
+        transition: isDragging ? 'none' : 'background 0.15s ease, border-color 0.15s ease',
         cursor: isDragging ? 'grabbing' : 'default',
-        animation: 'fadeInUp 0.3s cubic-bezier(0, 0, 0.58, 1) forwards',
       }}
     >
       {/* Drag handle */}
@@ -65,7 +64,7 @@ export function PlaylistItemCard({
         {...dragHandleProps}
         style={{
           cursor: 'grab',
-          color: 'var(--gray-3, #C7C7CC)',
+          color: '#3A3A3A',
           display: 'flex',
           flexDirection: 'column',
           gap: '3px',
@@ -75,20 +74,21 @@ export function PlaylistItemCard({
           ...(dragHandleProps?.style as React.CSSProperties),
         }}
       >
-        <span style={{ display: 'block', width: '16px', height: '1.5px', background: 'currentColor', borderRadius: '1px' }} />
-        <span style={{ display: 'block', width: '16px', height: '1.5px', background: 'currentColor', borderRadius: '1px' }} />
-        <span style={{ display: 'block', width: '16px', height: '1.5px', background: 'currentColor', borderRadius: '1px' }} />
+        <span style={{ display: 'block', width: '14px', height: '1.5px', background: 'currentColor', borderRadius: '1px' }} />
+        <span style={{ display: 'block', width: '14px', height: '1.5px', background: 'currentColor', borderRadius: '1px' }} />
+        <span style={{ display: 'block', width: '14px', height: '1.5px', background: 'currentColor', borderRadius: '1px' }} />
       </div>
 
       {/* Thumbnail */}
       <div
         style={{
-          width: '80px',
-          height: '80px',
-          borderRadius: '10px',
+          width: '64px',
+          height: '64px',
+          borderRadius: '8px',
           overflow: 'hidden',
           flexShrink: 0,
-          background: 'var(--gray-6, #F2F2F7)',
+          background: '#1C1C1C',
+          border: '1px solid #2A2A2A',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -113,16 +113,16 @@ export function PlaylistItemCard({
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              gap: '4px',
+              gap: '3px',
             }}
           >
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" strokeWidth="1.5">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#EF4444" strokeWidth="1.5">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
               <polyline points="14 2 14 8 20 8" />
               <line x1="9" y1="15" x2="15" y2="15" />
               <line x1="9" y1="11" x2="15" y2="11" />
             </svg>
-            <span style={{ fontSize: '10px', fontWeight: 600, color: '#FF3B30' }}>PDF</span>
+            <span style={{ fontSize: '9px', fontWeight: 600, color: '#EF4444', letterSpacing: '0.05em' }}>PDF</span>
           </div>
         )}
       </div>
@@ -131,11 +131,11 @@ export function PlaylistItemCard({
       <div style={{ flex: 1, minWidth: 0 }}>
         <p
           style={{
-            margin: '0 0 4px',
-            fontSize: '15px',
-            fontWeight: 600,
-            color: 'var(--text-primary, #1D1D1F)',
-            letterSpacing: '-0.02em',
+            margin: '0 0 3px',
+            fontSize: '14px',
+            fontWeight: 500,
+            color: '#FAFAFA',
+            letterSpacing: '-0.01em',
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             whiteSpace: 'nowrap',
@@ -145,9 +145,9 @@ export function PlaylistItemCard({
         </p>
         <p
           style={{
-            margin: '0 0 4px',
-            fontSize: '13px',
-            color: 'var(--text-secondary, #6E6E73)',
+            margin: '0 0 2px',
+            fontSize: '12px',
+            color: '#A1A1A1',
           }}
         >
           {item.type === 'pdf' ? 'PDF（20秒/ページ固定）' : `表示時間: ${formatDuration(item.durationOverrideMs)}`}
@@ -155,8 +155,8 @@ export function PlaylistItemCard({
         <p
           style={{
             margin: 0,
-            fontSize: '12px',
-            color: 'var(--text-tertiary, #86868B)',
+            fontSize: '11px',
+            color: '#6B6B6B',
           }}
         >
           位置: {item.position}
@@ -168,17 +168,18 @@ export function PlaylistItemCard({
         onClick={handleDeleteClick}
         aria-label={confirmDelete ? `${item.id}を削除` : '削除'}
         style={{
-          background: confirmDelete ? '#FF3B30' : isHovered ? 'rgba(255, 59, 48, 0.08)' : 'transparent',
-          color: confirmDelete ? 'white' : '#FF3B30',
-          border: 'none',
-          borderRadius: '980px',
-          padding: '6px 12px',
-          fontSize: '13px',
+          background: confirmDelete ? '#EF4444' : 'transparent',
+          color: confirmDelete ? 'white' : '#EF4444',
+          border: confirmDelete ? 'none' : '1px solid rgba(239,68,68,0.3)',
+          borderRadius: '6px',
+          padding: '5px 10px',
+          fontSize: '12px',
           fontWeight: 500,
           cursor: 'pointer',
-          transition: 'all 0.2s cubic-bezier(0, 0, 0.58, 1)',
+          transition: 'all 0.15s ease',
           flexShrink: 0,
           opacity: isHovered || confirmDelete ? 1 : 0,
+          fontFamily: 'inherit',
         }}
       >
         {confirmDelete ? '削除する' : '削除'}

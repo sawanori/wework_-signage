@@ -25,23 +25,22 @@ export function Card({
 
   const baseStyle: React.CSSProperties = glass
     ? {
-        background: 'rgba(255, 255, 255, 0.72)',
-        backdropFilter: 'saturate(180%) blur(20px)',
-        WebkitBackdropFilter: 'saturate(180%) blur(20px)',
-        border: '0.5px solid rgba(255, 255, 255, 0.18)',
-        borderRadius: '18px',
+        background: 'rgba(20, 20, 20, 0.85)',
+        backdropFilter: 'blur(16px)',
+        WebkitBackdropFilter: 'blur(16px)',
+        border: '1px solid #2A2A2A',
+        borderRadius: '12px',
         padding,
-        transition: 'all 0.3s cubic-bezier(0, 0, 0.58, 1)',
+        transition: 'border-color 0.15s ease',
       }
     : {
-        background: '#FFFFFF',
-        borderRadius: '18px',
+        background: '#141414',
+        borderRadius: '12px',
         padding,
-        boxShadow: isHovered && hoverable
-          ? '0 8px 32px rgba(0, 0, 0, 0.10)'
-          : '0 4px 16px rgba(0, 0, 0, 0.06)',
-        transform: isHovered && hoverable ? 'translateY(-2px)' : 'translateY(0)',
-        transition: 'all 0.3s cubic-bezier(0, 0, 0.58, 1)',
+        border: isHovered && hoverable
+          ? '1px solid #3A3A3A'
+          : '1px solid #2A2A2A',
+        transition: 'border-color 0.15s ease',
         cursor: onClick ? 'pointer' : undefined,
       };
 
@@ -49,8 +48,8 @@ export function Card({
     <div
       className={className}
       style={{ ...baseStyle, ...style }}
-      onMouseEnter={() => hoverable && setIsHovered(true)}
-      onMouseLeave={() => hoverable && setIsHovered(false)}
+      onMouseEnter={() => (hoverable || onClick) && setIsHovered(true)}
+      onMouseLeave={() => (hoverable || onClick) && setIsHovered(false)}
       onClick={onClick}
     >
       {children}

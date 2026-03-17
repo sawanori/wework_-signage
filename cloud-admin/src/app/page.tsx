@@ -71,31 +71,31 @@ export default function Home() {
   return (
     <div
       style={{
-        maxWidth: '1200px',
+        maxWidth: '1400px',
         margin: '0 auto',
-        padding: '40px 24px 80px',
+        padding: '40px 32px 80px',
       }}
     >
       {/* Page header */}
       <div
         style={{
-          marginBottom: '40px',
+          marginBottom: '48px',
           display: 'flex',
           alignItems: 'flex-end',
           justifyContent: 'space-between',
           gap: '24px',
-          animation: 'fadeInUp 0.6s cubic-bezier(0, 0, 0.58, 1) forwards',
+          animation: 'fadeInUp 0.3s ease forwards',
         }}
       >
         <div>
           <h1
             style={{
-              margin: '0 0 8px',
-              fontSize: '34px',
-              fontWeight: 700,
-              lineHeight: 1.06,
-              letterSpacing: '-0.01em',
-              color: 'var(--text-primary, #1D1D1F)',
+              margin: '0 0 6px',
+              fontSize: '36px',
+              fontWeight: 600,
+              lineHeight: 1.1,
+              letterSpacing: '-0.025em',
+              color: '#FAFAFA',
             }}
           >
             OG Signage
@@ -103,9 +103,9 @@ export default function Home() {
           <p
             style={{
               margin: 0,
-              fontSize: '17px',
-              color: 'var(--text-secondary, #6E6E73)',
-              letterSpacing: '-0.02em',
+              fontSize: '14px',
+              color: '#6B6B6B',
+              letterSpacing: '-0.01em',
             }}
           >
             サイネージコンテンツの管理・配信
@@ -117,39 +117,33 @@ export default function Home() {
           <button
             onClick={() => setIsFullscreenOpen(true)}
             style={{
-              background: '#007AFF',
-              color: '#fff',
-              border: 'none',
-              borderRadius: '980px',
-              padding: '10px 20px',
-              fontSize: '15px',
+              background: 'transparent',
+              color: '#FAFAFA',
+              border: '1px solid #2A2A2A',
+              borderRadius: '8px',
+              padding: '8px 16px',
+              fontSize: '14px',
               fontWeight: 500,
               letterSpacing: '-0.01em',
               cursor: 'pointer',
               display: 'inline-flex',
               alignItems: 'center',
               gap: '6px',
-              transition: 'background 0.2s ease-out, transform 0.2s ease-out',
+              transition: 'background 0.15s ease, border-color 0.15s ease',
               flexShrink: 0,
             }}
             onMouseEnter={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.background = '#0071E3';
-              (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.02)';
+              (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.06)';
+              (e.currentTarget as HTMLButtonElement).style.borderColor = '#3A3A3A';
             }}
             onMouseLeave={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.background = '#007AFF';
-              (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1)';
-            }}
-            onMouseDown={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.transform = 'scale(0.98)';
-            }}
-            onMouseUp={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1)';
+              (e.currentTarget as HTMLButtonElement).style.background = 'transparent';
+              (e.currentTarget as HTMLButtonElement).style.borderColor = '#2A2A2A';
             }}
           >
             <svg
-              width="16"
-              height="16"
+              width="14"
+              height="14"
               viewBox="0 0 24 24"
               fill="currentColor"
             >
@@ -164,15 +158,15 @@ export default function Home() {
       {error && (
         <div
           style={{
-            background: 'rgba(255, 59, 48, 0.08)',
-            border: '1px solid rgba(255, 59, 48, 0.2)',
-            borderRadius: '12px',
+            background: 'rgba(239, 68, 68, 0.08)',
+            border: '1px solid rgba(239, 68, 68, 0.2)',
+            borderRadius: '8px',
             padding: '12px 16px',
             marginBottom: '24px',
-            animation: 'fadeIn 0.3s cubic-bezier(0, 0, 0.58, 1) forwards',
+            animation: 'fadeIn 0.3s ease forwards',
           }}
         >
-          <p style={{ margin: 0, fontSize: '15px', color: '#FF3B30' }}>
+          <p style={{ margin: 0, fontSize: '14px', color: '#EF4444' }}>
             {error}
           </p>
         </div>
@@ -193,20 +187,22 @@ export default function Home() {
           <div
             style={{
               marginBottom: '32px',
-              animation: 'fadeInUp 0.6s 0.1s cubic-bezier(0, 0, 0.58, 1) both',
+              animation: 'fadeInUp 0.3s 0.05s ease both',
             }}
           >
             <h2
               style={{
-                margin: '0 0 16px',
-                fontSize: '22px',
-                fontWeight: 700,
-                letterSpacing: '-0.01em',
-                color: 'var(--text-primary, #1D1D1F)',
+                margin: '0 0 4px',
+                fontSize: '11px',
+                fontWeight: 500,
+                letterSpacing: '0.05em',
+                textTransform: 'uppercase',
+                color: '#6B6B6B',
               }}
             >
               ファイルのアップロード
             </h2>
+            <div style={{ marginBottom: '12px' }} />
             <Card>
               <FileUploader onUploadComplete={handleUploadComplete} />
             </Card>
@@ -215,20 +211,22 @@ export default function Home() {
           {/* Playlist section */}
           <div
             style={{
-              animation: 'fadeInUp 0.6s 0.2s cubic-bezier(0, 0, 0.58, 1) both',
+              animation: 'fadeInUp 0.3s 0.1s ease both',
             }}
           >
             <h2
               style={{
-                margin: '0 0 16px',
-                fontSize: '22px',
-                fontWeight: 700,
-                letterSpacing: '-0.01em',
-                color: 'var(--text-primary, #1D1D1F)',
+                margin: '0 0 4px',
+                fontSize: '11px',
+                fontWeight: 500,
+                letterSpacing: '0.05em',
+                textTransform: 'uppercase',
+                color: '#6B6B6B',
               }}
             >
               プレイリスト管理
             </h2>
+            <div style={{ marginBottom: '12px' }} />
 
             {/* Playlist selector tabs */}
             {!playlistsLoading && playlists.length > 0 && (
@@ -284,20 +282,20 @@ export default function Home() {
                     justifyContent: 'center',
                     padding: '48px',
                     gap: '12px',
-                    color: 'var(--text-secondary, #6E6E73)',
+                    color: '#6B6B6B',
                   }}
                 >
                   <div
                     style={{
-                      width: '20px',
-                      height: '20px',
-                      border: '2px solid #007AFF',
+                      width: '16px',
+                      height: '16px',
+                      border: '1.5px solid #3B82F6',
                       borderTopColor: 'transparent',
                       borderRadius: '50%',
                       animation: 'spin 0.8s linear infinite',
                     }}
                   />
-                  <span style={{ fontSize: '15px' }}>読み込み中...</span>
+                  <span style={{ fontSize: '14px' }}>読み込み中...</span>
                 </div>
               </Card>
             ) : playlist ? (
@@ -314,10 +312,10 @@ export default function Home() {
                   style={{
                     textAlign: 'center',
                     padding: '48px',
-                    color: 'var(--text-tertiary, #86868B)',
+                    color: '#6B6B6B',
                   }}
                 >
-                  <p style={{ margin: 0, fontSize: '15px' }}>
+                  <p style={{ margin: 0, fontSize: '14px' }}>
                     プレイリストを読み込めませんでした
                   </p>
                 </div>
@@ -331,8 +329,8 @@ export default function Home() {
           <div
             style={{
               position: 'sticky',
-              top: '24px',
-              animation: 'fadeInUp 0.6s 0.3s cubic-bezier(0, 0, 0.58, 1) both',
+              top: '72px',
+              animation: 'fadeInUp 0.3s 0.15s ease both',
             }}
           >
             <Card padding="16px">
@@ -347,10 +345,10 @@ export default function Home() {
               >
                 <span
                   style={{
-                    fontSize: '13px',
-                    fontWeight: 600,
-                    color: 'var(--text-secondary, #6E6E73)',
-                    letterSpacing: '0.02em',
+                    fontSize: '11px',
+                    fontWeight: 500,
+                    color: '#6B6B6B',
+                    letterSpacing: '0.05em',
                     textTransform: 'uppercase',
                   }}
                 >
@@ -359,11 +357,12 @@ export default function Home() {
                 <span
                   style={{
                     fontSize: '11px',
-                    color: 'var(--text-tertiary, #86868B)',
-                    background: 'var(--bg-grouped, #F2F2F7)',
-                    borderRadius: '980px',
+                    color: '#6B6B6B',
+                    background: '#1C1C1C',
+                    border: '1px solid #2A2A2A',
+                    borderRadius: '4px',
                     padding: '2px 8px',
-                    letterSpacing: '-0.01em',
+                    letterSpacing: '0.02em',
                   }}
                 >
                   {playlist.orientation === 'portrait' ? '縦 9:16' : '横 16:9'}
@@ -383,7 +382,7 @@ export default function Home() {
                 style={{
                   margin: '10px 0 0',
                   fontSize: '12px',
-                  color: 'var(--text-tertiary, #86868B)',
+                  color: '#6B6B6B',
                   textAlign: 'center',
                   letterSpacing: '-0.01em',
                 }}
@@ -412,7 +411,7 @@ export default function Home() {
           style={{
             position: 'fixed',
             inset: 0,
-            background: 'rgba(0,0,0,0.4)',
+            background: 'rgba(0,0,0,0.7)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -429,20 +428,20 @@ export default function Home() {
         >
           <div
             style={{
-              background: '#fff',
-              borderRadius: '16px',
+              background: '#141414',
+              border: '1px solid #2A2A2A',
+              borderRadius: '12px',
               padding: '28px',
               maxWidth: '400px',
               width: '100%',
-              boxShadow: '0 20px 60px rgba(0,0,0,0.2)',
             }}
           >
             <h3
               style={{
                 margin: '0 0 20px',
-                fontSize: '18px',
-                fontWeight: 700,
-                color: 'var(--text-primary, #1D1D1F)',
+                fontSize: '16px',
+                fontWeight: 600,
+                color: '#FAFAFA',
                 letterSpacing: '-0.01em',
               }}
             >
@@ -452,10 +451,12 @@ export default function Home() {
               <label
                 style={{
                   display: 'block',
-                  fontSize: '14px',
+                  fontSize: '11px',
                   fontWeight: 500,
-                  color: 'var(--text-secondary, #6E6E73)',
+                  color: '#6B6B6B',
                   marginBottom: '8px',
+                  letterSpacing: '0.05em',
+                  textTransform: 'uppercase',
                 }}
               >
                 プレイリスト名
@@ -479,18 +480,20 @@ export default function Home() {
                   width: '100%',
                   padding: '10px 12px',
                   borderRadius: '8px',
-                  border: `1px solid ${createError ? '#FF3B30' : '#D1D1D6'}`,
-                  fontSize: '15px',
-                  color: 'var(--text-primary, #1D1D1F)',
+                  border: `1px solid ${createError ? '#EF4444' : '#2A2A2A'}`,
+                  fontSize: '14px',
+                  color: '#FAFAFA',
+                  background: '#1C1C1C',
                   outline: 'none',
                   boxSizing: 'border-box',
+                  fontFamily: 'inherit',
                 }}
               />
               {createError && (
-                <p style={{ margin: '6px 0 0', fontSize: '13px', color: '#FF3B30' }}>{createError}</p>
+                <p style={{ margin: '6px 0 0', fontSize: '12px', color: '#EF4444' }}>{createError}</p>
               )}
             </div>
-            <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
+            <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
               <button
                 onClick={() => {
                   setShowCreateModal(false);
@@ -499,14 +502,22 @@ export default function Home() {
                 }}
                 disabled={creating}
                 style={{
-                  padding: '10px 20px',
+                  padding: '8px 16px',
                   borderRadius: '8px',
-                  border: '1px solid var(--border, #D1D1D6)',
+                  border: '1px solid #2A2A2A',
                   background: 'transparent',
-                  color: 'var(--text-secondary, #6E6E73)',
-                  fontSize: '15px',
+                  color: '#A1A1A1',
+                  fontSize: '14px',
                   fontWeight: 500,
                   cursor: 'pointer',
+                  fontFamily: 'inherit',
+                  transition: 'background 0.15s ease',
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.06)';
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLButtonElement).style.background = 'transparent';
                 }}
               >
                 キャンセル
@@ -515,14 +526,24 @@ export default function Home() {
                 onClick={() => void handleCreatePlaylist()}
                 disabled={creating || !newPlaylistName.trim()}
                 style={{
-                  padding: '10px 20px',
+                  padding: '8px 16px',
                   borderRadius: '8px',
                   border: 'none',
-                  background: creating || !newPlaylistName.trim() ? '#86868B' : '#007AFF',
-                  color: '#fff',
-                  fontSize: '15px',
+                  background: creating || !newPlaylistName.trim() ? '#2A2A2A' : '#FFFFFF',
+                  color: creating || !newPlaylistName.trim() ? '#6B6B6B' : '#000000',
+                  fontSize: '14px',
                   fontWeight: 600,
                   cursor: creating || !newPlaylistName.trim() ? 'not-allowed' : 'pointer',
+                  fontFamily: 'inherit',
+                  transition: 'background 0.15s ease',
+                }}
+                onMouseEnter={(e) => {
+                  const btn = e.currentTarget as HTMLButtonElement;
+                  if (!btn.disabled) btn.style.background = 'rgba(255,255,255,0.9)';
+                }}
+                onMouseLeave={(e) => {
+                  const btn = e.currentTarget as HTMLButtonElement;
+                  if (!btn.disabled) btn.style.background = '#FFFFFF';
                 }}
               >
                 {creating ? '作成中...' : '作成する'}
