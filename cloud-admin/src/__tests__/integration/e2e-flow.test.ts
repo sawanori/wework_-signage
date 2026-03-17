@@ -138,6 +138,10 @@ describe('E2Eフロー統合テスト: Cloud Admin全体', () => {
     expect(uploadBody.publicUrl).toBe('https://cdn.non-turn.com/img_abc123.jpg');
 
     // Step 2: POST /api/playlist/items — アイテム追加
+    // New route.ts queries playlists and max position before addPlaylistItem
+    mockDb.execute
+      .mockResolvedValueOnce({ rows: [{ id: PLAYLIST_ID, store_id: TEST_STORE_ID }] })  // SELECT playlists
+      .mockResolvedValueOnce({ rows: [{ next_pos: 1 }] });  // SELECT MAX(position)
     mockDb.batch.mockResolvedValueOnce([{ rowsAffected: 1 }, { rowsAffected: 1 }]);
     mockGenerateVersion.mockReturnValueOnce('v_1710679000');
 

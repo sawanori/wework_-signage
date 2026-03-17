@@ -42,14 +42,20 @@ export async function GET(request: Request): Promise<Response> {
       args: [playlistId],
     });
 
-    const items: PlaylistItem[] = (itemsResult.rows as unknown[][]).map((itemRow) => ({
-      id: itemRow[0] as string,
-      url: itemRow[1] as string,
-      hash: itemRow[2] as string,
-      type: itemRow[3] as 'image' | 'pdf',
-      durationOverrideMs: itemRow[4] as number | null,
-      position: itemRow[5] as number,
-    }));
+    const baseUrl = new URL(request.url).origin;
+    const items: PlaylistItem[] = (itemsResult.rows as unknown[][]).map((itemRow) => {
+      const publicUrl = itemRow[1] as string;
+      // Extract the R2 key from the URL for the image proxy
+      const key = publicUrl.split('/').pop() ?? '';
+      return {
+        id: itemRow[0] as string,
+        url: `${baseUrl}/api/image?key=${encodeURIComponent(key)}`,
+        hash: itemRow[2] as string,
+        type: itemRow[3] as 'image' | 'pdf',
+        durationOverrideMs: itemRow[4] as number | null,
+        position: itemRow[5] as number,
+      };
+    });
 
     // Sort by position ascending
     items.sort((a, b) => a.position - b.position);
