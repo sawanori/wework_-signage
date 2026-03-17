@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Non-Turn Signage Admin',
-  description: 'Cloud Admin for Non-Turn Signage System',
+  title: 'OG Signage Admin',
+  description: 'Cloud Admin for OG Signage System',
 };
 
 export default function RootLayout({
@@ -23,7 +23,7 @@ export default function RootLayout({
             className="text-headline"
             style={{ color: 'var(--text-primary)', letterSpacing: '-0.02em' }}
           >
-            Non-Turn Signage
+            OG Signage
           </span>
         </nav>
         {/* Main content pushed below nav */}

@@ -98,7 +98,7 @@ export default function Home() {
               color: 'var(--text-primary, #1D1D1F)',
             }}
           >
-            Non-Turn Signage
+            OG Signage
           </h1>
           <p
             style={{
