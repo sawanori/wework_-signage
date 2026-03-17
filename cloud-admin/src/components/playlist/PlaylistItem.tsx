@@ -47,12 +47,12 @@ export function PlaylistItemCard({
         display: 'flex',
         alignItems: 'center',
         gap: '12px',
-        background: isDragging ? '#1C1C1C' : isHovered ? '#181818' : '#141414',
+        background: isDragging ? '#F0F0F0' : isHovered ? '#F8F8F8' : '#FFFFFF',
         borderRadius: '10px',
         padding: '10px 14px',
         border: isDragging
-          ? '1px solid #3A3A3A'
-          : '1px solid #2A2A2A',
+          ? '1px solid #BBBBBB'
+          : '1px solid #D5D5D5',
         opacity: isDragging ? 0.95 : 1,
         transform: isDragging ? 'scale(1.01)' : 'scale(1)',
         transition: isDragging ? 'none' : 'background 0.15s ease, border-color 0.15s ease',
@@ -64,7 +64,7 @@ export function PlaylistItemCard({
         {...dragHandleProps}
         style={{
           cursor: 'grab',
-          color: '#3A3A3A',
+          color: '#CCCCCC',
           display: 'flex',
           flexDirection: 'column',
           gap: '3px',
@@ -87,8 +87,8 @@ export function PlaylistItemCard({
           borderRadius: '8px',
           overflow: 'hidden',
           flexShrink: 0,
-          background: '#1C1C1C',
-          border: '1px solid #2A2A2A',
+          background: '#F0F0F0',
+          border: '1px solid #D5D5D5',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -134,7 +134,7 @@ export function PlaylistItemCard({
             margin: '0 0 3px',
             fontSize: '14px',
             fontWeight: 500,
-            color: '#FAFAFA',
+            color: '#1A1A1A',
             letterSpacing: '-0.01em',
             overflow: 'hidden',
             textOverflow: 'ellipsis',
@@ -147,7 +147,7 @@ export function PlaylistItemCard({
           style={{
             margin: '0 0 2px',
             fontSize: '12px',
-            color: '#A1A1A1',
+            color: '#666666',
           }}
         >
           {item.type === 'pdf' ? 'PDF（20秒/ページ固定）' : `表示時間: ${formatDuration(item.durationOverrideMs)}`}
@@ -156,7 +156,7 @@ export function PlaylistItemCard({
           style={{
             margin: 0,
             fontSize: '11px',
-            color: '#6B6B6B',
+            color: '#888888',
           }}
         >
           位置: {item.position}

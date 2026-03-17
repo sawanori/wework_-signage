@@ -14,19 +14,19 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 const variantStyles: Record<ButtonVariant, React.CSSProperties> = {
   primary: {
-    background: '#FFFFFF',
-    color: '#000000',
+    background: '#1A1A1A',
+    color: '#FFFFFF',
     border: 'none',
   },
   secondary: {
     background: 'transparent',
-    color: '#A1A1A1',
-    border: 'none',
+    color: '#1A1A1A',
+    border: '1px solid #D5D5D5',
   },
   outline: {
     background: 'transparent',
-    color: '#FAFAFA',
-    border: '1px solid #2A2A2A',
+    color: '#1A1A1A',
+    border: '1px solid #D5D5D5',
   },
   danger: {
     background: '#EF4444',
@@ -55,15 +55,15 @@ const sizeStyles: Record<ButtonSize, React.CSSProperties> = {
 
 const variantHoverStyles: Record<ButtonVariant, React.CSSProperties> = {
   primary: {
-    background: 'rgba(255,255,255,0.9)',
+    background: '#333333',
   },
   secondary: {
-    background: 'rgba(255,255,255,0.06)',
-    color: '#FAFAFA',
+    background: 'rgba(0,0,0,0.04)',
+    borderColor: '#BBBBBB',
   },
   outline: {
-    background: 'rgba(255,255,255,0.06)',
-    borderColor: '#3A3A3A',
+    background: 'rgba(0,0,0,0.04)',
+    borderColor: '#BBBBBB',
   },
   danger: {
     background: '#DC2626',

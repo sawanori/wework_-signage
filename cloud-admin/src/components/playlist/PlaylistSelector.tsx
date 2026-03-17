@@ -29,8 +29,8 @@ export function PlaylistSelector({
         alignItems: 'center',
         gap: '4px',
         padding: '4px',
-        background: '#0F0F0F',
-        border: '1px solid #2A2A2A',
+        background: '#F0F0F0',
+        border: '1px solid #D5D5D5',
         borderRadius: '10px',
         marginBottom: '16px',
         flexWrap: 'wrap',
@@ -49,9 +49,9 @@ export function PlaylistSelector({
               gap: '8px',
               padding: '7px 14px',
               borderRadius: '7px',
-              border: isSelected ? '1px solid #3A3A3A' : '1px solid transparent',
-              background: isSelected ? '#1C1C1C' : 'transparent',
-              color: isSelected ? '#FAFAFA' : '#6B6B6B',
+              border: isSelected ? '1px solid #D5D5D5' : '1px solid transparent',
+              background: isSelected ? '#FFFFFF' : 'transparent',
+              color: isSelected ? '#1A1A1A' : '#666666',
               fontSize: '14px',
               fontWeight: isSelected ? 500 : 400,
               letterSpacing: '-0.01em',
@@ -62,12 +62,12 @@ export function PlaylistSelector({
             }}
             onMouseEnter={(e) => {
               if (!isSelected && !loading) {
-                (e.currentTarget as HTMLButtonElement).style.color = '#A1A1A1';
+                (e.currentTarget as HTMLButtonElement).style.color = '#1A1A1A';
               }
             }}
             onMouseLeave={(e) => {
               if (!isSelected) {
-                (e.currentTarget as HTMLButtonElement).style.color = '#6B6B6B';
+                (e.currentTarget as HTMLButtonElement).style.color = '#666666';
               }
             }}
           >
@@ -118,7 +118,7 @@ export function PlaylistSelector({
           borderRadius: '7px',
           border: '1px solid transparent',
           background: 'transparent',
-          color: canCreate && !loading ? '#6B6B6B' : '#3A3A3A',
+          color: canCreate && !loading ? '#666666' : '#BBBBBB',
           fontSize: '13px',
           fontWeight: 500,
           cursor: canCreate && !loading ? 'pointer' : 'not-allowed',
@@ -128,12 +128,12 @@ export function PlaylistSelector({
         }}
         onMouseEnter={(e) => {
           if (canCreate && !loading) {
-            (e.currentTarget as HTMLButtonElement).style.color = '#A1A1A1';
+            (e.currentTarget as HTMLButtonElement).style.color = '#1A1A1A';
           }
         }}
         onMouseLeave={(e) => {
           if (canCreate && !loading) {
-            (e.currentTarget as HTMLButtonElement).style.color = '#6B6B6B';
+            (e.currentTarget as HTMLButtonElement).style.color = '#666666';
           }
         }}
       >

@@ -5,20 +5,20 @@
 /* Industrial Premium Design System CSS Custom Properties */
 :root {
   /* Backgrounds */
-  --bg-main: #0A0A0A;
-  --bg-card: #141414;
-  --bg-elevated: #1C1C1C;
-  --bg-input: #1C1C1C;
+  --bg-main: #E8E8E8;
+  --bg-card: #FFFFFF;
+  --bg-elevated: #F0F0F0;
+  --bg-input: #F0F0F0;
 
   /* Borders */
-  --border-default: #2A2A2A;
-  --border-hover: #3A3A3A;
-  --border-active: #4A4A4A;
+  --border-default: #D5D5D5;
+  --border-hover: #BBBBBB;
+  --border-active: #999999;
 
   /* Text */
-  --text-primary: #FAFAFA;
-  --text-secondary: #A1A1A1;
-  --text-tertiary: #6B6B6B;
+  --text-primary: #1A1A1A;
+  --text-secondary: #666666;
+  --text-tertiary: #888888;
 
   /* Accents */
   --accent-blue: #3B82F6;
@@ -52,6 +52,12 @@ body {
   background-color: var(--bg-main);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Number input arrows hidden for cleaner look */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
 }
 
 /* Typography Scale */
@@ -103,8 +109,8 @@ body {
   top: 0;
   width: 100%;
   height: 56px;
-  background: var(--bg-main);
-  border-bottom: 1px solid var(--border-default);
+  background: #1A1A1A;
+  border-bottom: 1px solid #2A2A2A;
   z-index: 9999;
 }
 
@@ -123,8 +129,8 @@ body {
 
 /* Industrial Button Styles */
 .ind-button-primary {
-  background: #FFFFFF;
-  color: #000000;
+  background: #1A1A1A;
+  color: #FFFFFF;
   border: none;
   border-radius: 8px;
   padding: 8px 16px;
@@ -140,13 +146,13 @@ body {
 }
 
 .ind-button-primary:hover {
-  background: rgba(255, 255, 255, 0.9);
+  background: #333333;
 }
 
 .ind-button-secondary {
   background: transparent;
-  color: var(--text-primary);
-  border: 1px solid var(--border-default);
+  color: #1A1A1A;
+  border: 1px solid #D5D5D5;
   border-radius: 8px;
   padding: 8px 16px;
   font-size: 14px;
@@ -161,7 +167,7 @@ body {
 }
 
 .ind-button-secondary:hover {
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(0, 0, 0, 0.04);
   border-color: var(--border-hover);
 }
 

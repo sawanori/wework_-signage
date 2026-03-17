@@ -125,7 +125,7 @@ export function FileUploader({ onUploadComplete }: FileUploaderProps) {
           if (e.key === 'Enter' || e.key === ' ') handleClick();
         }}
         style={{
-          border: `1px dashed ${isDragging ? '#3B82F6' : '#2A2A2A'}`,
+          border: `1px dashed ${isDragging ? '#3B82F6' : '#CCCCCC'}`,
           borderRadius: '10px',
           padding: '40px 32px',
           textAlign: 'center',
@@ -136,12 +136,12 @@ export function FileUploader({ onUploadComplete }: FileUploaderProps) {
         }}
         onMouseEnter={(e) => {
           if (!isDragging && !isUploading) {
-            (e.currentTarget as HTMLDivElement).style.borderColor = '#3A3A3A';
+            (e.currentTarget as HTMLDivElement).style.borderColor = '#BBBBBB';
           }
         }}
         onMouseLeave={(e) => {
           if (!isDragging) {
-            (e.currentTarget as HTMLDivElement).style.borderColor = '#2A2A2A';
+            (e.currentTarget as HTMLDivElement).style.borderColor = '#CCCCCC';
           }
         }}
       >
@@ -151,8 +151,8 @@ export function FileUploader({ onUploadComplete }: FileUploaderProps) {
             width: '48px',
             height: '48px',
             margin: '0 auto 14px',
-            background: isDragging ? 'rgba(59, 130, 246, 0.1)' : '#1C1C1C',
-            border: `1px solid ${isDragging ? 'rgba(59,130,246,0.3)' : '#2A2A2A'}`,
+            background: isDragging ? 'rgba(59, 130, 246, 0.1)' : '#F0F0F0',
+            border: `1px solid ${isDragging ? 'rgba(59,130,246,0.3)' : '#D5D5D5'}`,
             borderRadius: '12px',
             display: 'flex',
             alignItems: 'center',
@@ -165,7 +165,7 @@ export function FileUploader({ onUploadComplete }: FileUploaderProps) {
             height="20"
             viewBox="0 0 24 24"
             fill="none"
-            stroke={isDragging ? '#3B82F6' : '#6B6B6B'}
+            stroke={isDragging ? '#3B82F6' : '#888888'}
             strokeWidth="1.5"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -181,7 +181,7 @@ export function FileUploader({ onUploadComplete }: FileUploaderProps) {
             margin: '0 0 6px',
             fontSize: '14px',
             fontWeight: 500,
-            color: isDragging ? '#3B82F6' : '#FAFAFA',
+            color: isDragging ? '#3B82F6' : '#1A1A1A',
             letterSpacing: '-0.01em',
             transition: 'color 0.15s ease',
           }}
@@ -192,7 +192,7 @@ export function FileUploader({ onUploadComplete }: FileUploaderProps) {
           style={{
             margin: 0,
             fontSize: '12px',
-            color: '#6B6B6B',
+            color: '#888888',
             letterSpacing: '-0.01em',
           }}
         >
@@ -248,7 +248,7 @@ export function FileUploader({ onUploadComplete }: FileUploaderProps) {
 
       {/* File size info for selected file */}
       {currentFile && state.status === 'idle' && (
-        <p style={{ margin: 0, fontSize: '12px', color: '#6B6B6B' }}>
+        <p style={{ margin: 0, fontSize: '12px', color: '#888888' }}>
           {currentFile.name} — {formatFileSize(currentFile.size)}
         </p>
       )}

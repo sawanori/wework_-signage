@@ -13,7 +13,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja">
-      <body style={{ background: '#0A0A0A', minHeight: '100vh' }}>
+      <body style={{ background: '#E8E8E8', minHeight: '100vh' }}>
         {/* Industrial Navigation Bar */}
         <nav
           className="ind-nav"

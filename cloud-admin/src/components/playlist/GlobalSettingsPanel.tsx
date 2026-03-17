@@ -49,9 +49,9 @@ export function GlobalSettingsPanel({
     height: '40px',
     padding: '0 12px',
     fontSize: '14px',
-    color: '#FAFAFA',
-    background: '#1C1C1C',
-    border: '1px solid #2A2A2A',
+    color: '#1A1A1A',
+    background: '#F0F0F0',
+    border: '1px solid #D5D5D5',
     borderRadius: '8px',
     outline: 'none',
     letterSpacing: '-0.01em',
@@ -63,7 +63,7 @@ export function GlobalSettingsPanel({
     display: 'block',
     fontSize: '11px',
     fontWeight: 500,
-    color: '#6B6B6B',
+    color: '#666666',
     marginBottom: '8px',
     letterSpacing: '0.05em',
     textTransform: 'uppercase',
@@ -76,7 +76,7 @@ export function GlobalSettingsPanel({
           margin: '0 0 20px',
           fontSize: '11px',
           fontWeight: 500,
-          color: '#6B6B6B',
+          color: '#666666',
           letterSpacing: '0.05em',
           textTransform: 'uppercase',
         }}
@@ -101,16 +101,16 @@ export function GlobalSettingsPanel({
               onChange={(e) => setFadeDurationMs(Math.max(0, parseInt(e.target.value, 10) || 0))}
               style={inputStyle}
               onFocus={(e) => {
-                (e.currentTarget as HTMLInputElement).style.borderColor = '#3A3A3A';
+                (e.currentTarget as HTMLInputElement).style.borderColor = '#BBBBBB';
               }}
               onBlur={(e) => {
-                (e.currentTarget as HTMLInputElement).style.borderColor = '#2A2A2A';
+                (e.currentTarget as HTMLInputElement).style.borderColor = '#D5D5D5';
               }}
             />
             <span
               style={{
                 fontSize: '12px',
-                color: '#6B6B6B',
+                color: '#666666',
                 flexShrink: 0,
                 minWidth: '36px',
               }}
@@ -136,16 +136,16 @@ export function GlobalSettingsPanel({
               onChange={(e) => setIntervalMs(Math.max(1000, parseInt(e.target.value, 10) || 1000))}
               style={inputStyle}
               onFocus={(e) => {
-                (e.currentTarget as HTMLInputElement).style.borderColor = '#3A3A3A';
+                (e.currentTarget as HTMLInputElement).style.borderColor = '#BBBBBB';
               }}
               onBlur={(e) => {
-                (e.currentTarget as HTMLInputElement).style.borderColor = '#2A2A2A';
+                (e.currentTarget as HTMLInputElement).style.borderColor = '#D5D5D5';
               }}
             />
             <span
               style={{
                 fontSize: '12px',
-                color: '#6B6B6B',
+                color: '#666666',
                 flexShrink: 0,
                 minWidth: '36px',
               }}
@@ -161,8 +161,8 @@ export function GlobalSettingsPanel({
           <div
             style={{
               display: 'flex',
-              background: '#0F0F0F',
-              border: '1px solid #2A2A2A',
+              background: '#F0F0F0',
+              border: '1px solid #D5D5D5',
               borderRadius: '8px',
               padding: '3px',
               gap: '3px',
@@ -175,14 +175,14 @@ export function GlobalSettingsPanel({
                 style={{
                   flex: 1,
                   height: '34px',
-                  border: orientation === opt ? '1px solid #3A3A3A' : '1px solid transparent',
+                  border: orientation === opt ? '1px solid #D5D5D5' : '1px solid transparent',
                   borderRadius: '6px',
                   fontSize: '13px',
                   fontWeight: orientation === opt ? 500 : 400,
                   cursor: 'pointer',
                   transition: 'all 0.15s ease',
-                  background: orientation === opt ? '#1C1C1C' : 'transparent',
-                  color: orientation === opt ? '#FAFAFA' : '#6B6B6B',
+                  background: orientation === opt ? '#1A1A1A' : 'transparent',
+                  color: orientation === opt ? '#FFFFFF' : '#666666',
                   fontFamily: 'inherit',
                   letterSpacing: '-0.01em',
                 }}
@@ -196,7 +196,7 @@ export function GlobalSettingsPanel({
         {/* Version info */}
         <div
           style={{
-            borderTop: '1px solid #2A2A2A',
+            borderTop: '1px solid #D5D5D5',
             paddingTop: '14px',
             display: 'flex',
             justifyContent: 'space-between',
@@ -206,7 +206,7 @@ export function GlobalSettingsPanel({
           <span
             style={{
               fontSize: '11px',
-              color: '#6B6B6B',
+              color: '#666666',
               fontFamily: "'SF Mono', 'Fira Code', Menlo, Monaco, monospace",
               letterSpacing: '0.02em',
             }}
@@ -216,7 +216,7 @@ export function GlobalSettingsPanel({
           <span
             style={{
               fontSize: '11px',
-              color: '#6B6B6B',
+              color: '#666666',
             }}
           >
             {playlist.items.length} アイテム

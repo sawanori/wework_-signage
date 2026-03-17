@@ -51,7 +51,7 @@ export function PlaylistEditor({
               margin: 0,
               fontSize: '14px',
               fontWeight: 500,
-              color: '#FAFAFA',
+              color: '#1A1A1A',
               letterSpacing: '-0.01em',
             }}
           >
@@ -60,9 +60,9 @@ export function PlaylistEditor({
           <span
             style={{
               fontSize: '11px',
-              color: '#6B6B6B',
-              background: '#1C1C1C',
-              border: '1px solid #2A2A2A',
+              color: '#666666',
+              background: '#F0F0F0',
+              border: '1px solid #D5D5D5',
               borderRadius: '4px',
               padding: '3px 8px',
               letterSpacing: '0.02em',
@@ -77,7 +77,7 @@ export function PlaylistEditor({
             style={{
               textAlign: 'center',
               padding: '48px 24px',
-              color: '#6B6B6B',
+              color: '#666666',
             }}
           >
             <div
@@ -85,8 +85,8 @@ export function PlaylistEditor({
                 width: '44px',
                 height: '44px',
                 margin: '0 auto 14px',
-                background: '#1C1C1C',
-                border: '1px solid #2A2A2A',
+                background: '#F0F0F0',
+                border: '1px solid #D5D5D5',
                 borderRadius: '10px',
                 display: 'flex',
                 alignItems: 'center',
@@ -106,10 +106,10 @@ export function PlaylistEditor({
                 <path d="M9 21V9" />
               </svg>
             </div>
-            <p style={{ margin: 0, fontSize: '14px', color: '#A1A1A1' }}>
+            <p style={{ margin: 0, fontSize: '14px', color: '#666666' }}>
               プレイリストにアイテムがありません
             </p>
-            <p style={{ margin: '4px 0 0', fontSize: '12px', color: '#6B6B6B' }}>
+            <p style={{ margin: '4px 0 0', fontSize: '12px', color: '#666666' }}>
               上のアップローダーからファイルを追加してください
             </p>
           </div>

@@ -25,21 +25,21 @@ export function Card({
 
   const baseStyle: React.CSSProperties = glass
     ? {
-        background: 'rgba(20, 20, 20, 0.85)',
+        background: 'rgba(255, 255, 255, 0.85)',
         backdropFilter: 'blur(16px)',
         WebkitBackdropFilter: 'blur(16px)',
-        border: '1px solid #2A2A2A',
+        border: '1px solid #D5D5D5',
         borderRadius: '12px',
         padding,
         transition: 'border-color 0.15s ease',
       }
     : {
-        background: '#141414',
+        background: '#FFFFFF',
         borderRadius: '12px',
         padding,
         border: isHovered && hoverable
-          ? '1px solid #3A3A3A'
-          : '1px solid #2A2A2A',
+          ? '1px solid #BBBBBB'
+          : '1px solid #D5D5D5',
         transition: 'border-color 0.15s ease',
         cursor: onClick ? 'pointer' : undefined,
       };
