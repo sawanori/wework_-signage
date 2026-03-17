@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import type { PlaylistItem, GlobalSettings } from '@non-turn/shared';
 
 interface PlaylistPreviewProps {
@@ -19,86 +19,108 @@ export function PlaylistPreview({
   const [index, setIndex] = useState(0);
   const [opacity, setOpacity] = useState(1);
   const [playing, setPlaying] = useState(true);
-  const indexRef = useRef(0);
-  const playingRef = useRef(true);
-  const intervalRef = useRef<number | null>(null);
 
   const total = items.length;
   const fadeDur = globalSettings.fadeDurationMs;
   const showDur = globalSettings.intervalMs;
 
-  // Keep refs in sync
-  useEffect(() => { indexRef.current = index; }, [index]);
-  useEffect(() => { playingRef.current = playing; }, [playing]);
+  // All mutable state in a single ref to avoid stale closures
+  const stateRef = useRef({
+    index: 0,
+    playing: true,
+    total,
+    fadeDur,
+    showDur,
+    mounted: true,
+  });
 
-  // Main slideshow loop
+  // Keep ref in sync
+  stateRef.current.playing = playing;
+  stateRef.current.total = total;
+  stateRef.current.fadeDur = fadeDur;
+  stateRef.current.showDur = showDur;
+
+  // Single persistent loop using requestAnimationFrame + timestamps
   useEffect(() => {
-    if (total <= 1 || !playing) {
-      if (intervalRef.current) window.clearInterval(intervalRef.current);
-      return;
+    stateRef.current.mounted = true;
+    let timerId: ReturnType<typeof setTimeout> | null = null;
+
+    function doOneCycle() {
+      const s = stateRef.current;
+      if (!s.mounted || s.total <= 1) return;
+
+      // Wait showDur, then transition
+      timerId = setTimeout(() => {
+        const s2 = stateRef.current;
+        if (!s2.mounted) return;
+        if (!s2.playing) {
+          // Paused — wait and retry
+          timerId = setTimeout(doOneCycle, 200);
+          return;
+        }
+
+        // Fade out
+        setOpacity(0);
+
+        // After fade out, swap slide
+        timerId = setTimeout(() => {
+          const s3 = stateRef.current;
+          if (!s3.mounted) return;
+
+          const next = (s3.index + 1) % s3.total;
+          s3.index = next;
+          setIndex(next);
+
+          // Fade in
+          requestAnimationFrame(() => {
+            if (!stateRef.current.mounted) return;
+            setOpacity(1);
+          });
+
+          // After fade in, start next cycle
+          timerId = setTimeout(doOneCycle, s3.fadeDur);
+        }, s2.fadeDur);
+      }, s.showDur);
     }
 
-    // Total cycle: showDur (visible) + fadeDur (fade out) + fadeDur (fade in)
-    const cycleDur = showDur + fadeDur * 2;
-
-    const tick = () => {
-      if (!playingRef.current) return;
-      // Fade out
-      setOpacity(0);
-      // After fade out, swap slide and fade in
-      setTimeout(() => {
-        const next = (indexRef.current + 1) % total;
-        indexRef.current = next;
-        setIndex(next);
-        // Let the DOM update, then fade in
-        requestAnimationFrame(() => {
-          setOpacity(1);
-        });
-      }, fadeDur);
-    };
-
-    // First tick after showDur
-    const firstTimeout = setTimeout(tick, showDur);
-    // Then repeat every cycleDur
-    const repeatInterval = setInterval(tick, cycleDur);
-
-    intervalRef.current = repeatInterval as unknown as number;
+    doOneCycle();
 
     return () => {
-      clearTimeout(firstTimeout);
-      clearInterval(repeatInterval);
+      stateRef.current.mounted = false;
+      if (timerId) clearTimeout(timerId);
     };
-  }, [total, fadeDur, showDur, playing]);
+  }, []); // No deps - the loop reads everything from stateRef
 
-  // Reset on items change
+  // Reset when items change
   const itemsKey = items.map(i => i.id).join(',');
+  const prevItemsKey = useRef(itemsKey);
   useEffect(() => {
-    setIndex(0);
-    indexRef.current = 0;
-    setOpacity(1);
+    if (prevItemsKey.current !== itemsKey) {
+      prevItemsKey.current = itemsKey;
+      stateRef.current.index = 0;
+      setIndex(0);
+      setOpacity(1);
+    }
   }, [itemsKey]);
 
-  const handleNext = () => {
-    if (total <= 1) return;
+  const doTransition = useCallback((targetIndex: number) => {
     setOpacity(0);
     setTimeout(() => {
-      const next = (indexRef.current + 1) % total;
-      indexRef.current = next;
-      setIndex(next);
+      stateRef.current.index = targetIndex;
+      setIndex(targetIndex);
       requestAnimationFrame(() => setOpacity(1));
     }, fadeDur);
-  };
+  }, [fadeDur]);
 
-  const handlePrev = () => {
+  const handleNext = useCallback(() => {
     if (total <= 1) return;
-    setOpacity(0);
-    setTimeout(() => {
-      const prev = (indexRef.current - 1 + total) % total;
-      indexRef.current = prev;
-      setIndex(prev);
-      requestAnimationFrame(() => setOpacity(1));
-    }, fadeDur);
-  };
+    doTransition((stateRef.current.index + 1) % total);
+  }, [total, doTransition]);
+
+  const handlePrev = useCallback(() => {
+    if (total <= 1) return;
+    doTransition((stateRef.current.index - 1 + total) % total);
+  }, [total, doTransition]);
 
   if (total === 0) {
     return (
@@ -144,7 +166,6 @@ export function PlaylistPreview({
         )}
       </div>
 
-      {/* Controls */}
       <div style={{
         position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 10,
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
