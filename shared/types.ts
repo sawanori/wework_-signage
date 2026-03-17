@@ -40,3 +40,52 @@ export interface PlaylistResponse {
  * PlaylistResponseと同一構造（そのまま保存）
  */
 export type LocalPlaylist = PlaylistResponse;
+
+/**
+ * プレイリストのサマリー情報（一覧表示用）
+ */
+export interface PlaylistSummary {
+  id: number;           // プレイリストID（DBの INTEGER PRIMARY KEY）
+  name: string;         // プレイリスト名（例: "春メニュー"）
+  isActive: boolean;    // アクティブかどうか
+  itemCount: number;    // アイテム数
+  version: string;      // 最終更新バージョン
+  updatedAt: number;    // Unix timestamp（秒）
+}
+
+/**
+ * GET /api/playlists?device_id= のレスポンス型
+ */
+export interface PlaylistListResponse {
+  deviceId: string;
+  storeId: string;
+  playlists: PlaylistSummary[];  // 最大3件
+}
+
+/**
+ * GET /api/playlist?device_id=&playlist_id= のレスポンス型
+ * 特定プレイリストの詳細取得（管理画面の編集用）
+ * PlaylistResponse を拡張して playlist メタ情報を追加
+ */
+export interface PlaylistDetailResponse extends PlaylistResponse {
+  playlistId: number;
+  playlistName: string;
+  isActive: boolean;
+}
+
+/**
+ * POST /api/playlists のリクエスト型
+ */
+export interface CreatePlaylistRequest {
+  deviceId: string;
+  name: string;  // 1〜50文字
+}
+
+/**
+ * POST /api/playlists のレスポンス型
+ */
+export interface CreatePlaylistResponse {
+  playlistId: number;
+  name: string;
+  isActive: boolean;
+}

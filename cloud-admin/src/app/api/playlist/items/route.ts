@@ -23,6 +23,7 @@ export async function POST(request: Request): Promise<Response> {
   }
 
   const deviceId = (body.deviceId as string) ?? '';
+  const playlistIdFromBody = body.playlistId as number | undefined;
   const itemId = (body.itemId as string) ?? (body.id as string) ?? '';
   const publicUrl = (body.publicUrl as string) ?? '';
   const fileType = (body.fileType as string) ?? 'image';
@@ -31,30 +32,59 @@ export async function POST(request: Request): Promise<Response> {
   const fileSize = (body.fileSize as number) ?? (body.fileSizeBytes as number) ?? 0;
   const durationOverrideMs = (body.durationOverrideMs as number | null) ?? null;
 
-  if (!deviceId || !itemId || !publicUrl) {
+  if (!itemId || !publicUrl) {
     return NextResponse.json(
-      { error: 'Missing required fields (deviceId, itemId, publicUrl)', code: 'MISSING_FIELDS' },
+      { error: 'Missing required fields (itemId, publicUrl)', code: 'MISSING_FIELDS' },
+      { status: 400 },
+    );
+  }
+
+  if (!deviceId && playlistIdFromBody === undefined) {
+    return NextResponse.json(
+      { error: 'Missing required fields (deviceId or playlistId)', code: 'MISSING_FIELDS' },
       { status: 400 },
     );
   }
 
   try {
-    // Get playlist for this device
-    const playlistResult = await db.execute({
-      sql: 'SELECT id, store_id FROM playlists WHERE device_id = ?',
-      args: [deviceId],
-    });
+    let playlistId: number;
+    let storeId: string;
 
-    if (playlistResult.rows.length === 0) {
-      return NextResponse.json(
-        { error: 'Device not found', code: 'DEVICE_NOT_FOUND' },
-        { status: 404 },
-      );
+    if (playlistIdFromBody !== undefined) {
+      // playlistId specified directly: use it (validate it exists)
+      const playlistResult = await db.execute({
+        sql: 'SELECT id, store_id, device_id FROM playlists WHERE id = ?',
+        args: [playlistIdFromBody],
+      });
+
+      if (playlistResult.rows.length === 0) {
+        return NextResponse.json(
+          { error: 'Playlist not found', code: 'PLAYLIST_NOT_FOUND' },
+          { status: 404 },
+        );
+      }
+
+      const playlist = playlistResult.rows[0];
+      playlistId = playlist.id as number;
+      storeId = playlist.store_id as string;
+    } else {
+      // Fall back to resolving active playlist from deviceId (backward compat)
+      const playlistResult = await db.execute({
+        sql: 'SELECT id, store_id FROM playlists WHERE device_id = ? AND is_active = 1',
+        args: [deviceId],
+      });
+
+      if (playlistResult.rows.length === 0) {
+        return NextResponse.json(
+          { error: 'Device not found', code: 'DEVICE_NOT_FOUND' },
+          { status: 404 },
+        );
+      }
+
+      const playlist = playlistResult.rows[0];
+      playlistId = playlist.id as number;
+      storeId = playlist.store_id as string;
     }
-
-    const playlist = playlistResult.rows[0];
-    const playlistId = playlist.id as number;
-    const storeId = playlist.store_id as string;
 
     // Get next position
     const posResult = await db.execute({
@@ -75,7 +105,7 @@ export async function POST(request: Request): Promise<Response> {
       durationOverrideMs,
       position,
       storeId,
-      deviceId,
+      deviceId: deviceId || '',
     });
 
     return NextResponse.json({ success: true, id: itemId }, { status: 201 });

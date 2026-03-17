@@ -3,15 +3,34 @@
 import React, { useState } from 'react';
 import { FileUploader } from '@/components/uploader/FileUploader';
 import { PlaylistEditor } from '@/components/playlist/PlaylistEditor';
+import { PlaylistSelector } from '@/components/playlist/PlaylistSelector';
+import { PlaylistActivateButton } from '@/components/playlist/PlaylistActivateButton';
+import { PlaylistNameEditor } from '@/components/playlist/PlaylistNameEditor';
+import { PlaylistDeleteButton } from '@/components/playlist/PlaylistDeleteButton';
 import { PlaylistPreview } from '@/components/preview/PlaylistPreview';
 import { FullscreenPreview } from '@/components/preview/FullscreenPreview';
 import { Card } from '@/components/ui/Card';
 import { usePlaylistEditor } from '@/hooks/usePlaylistEditor';
 
 export default function Home() {
-  const { state, addItem, deleteItem, reorderItems, updateSettings } = usePlaylistEditor();
-  const { playlist, loading, error } = state;
+  const {
+    state,
+    addItem,
+    deleteItem,
+    reorderItems,
+    updateSettings,
+    selectPlaylist,
+    createPlaylist,
+    activatePlaylist,
+    renamePlaylist,
+    deletePlaylist,
+  } = usePlaylistEditor();
+  const { playlist, loading, error, playlists, selectedPlaylistId, playlistsLoading } = state;
   const [isFullscreenOpen, setIsFullscreenOpen] = useState(false);
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [newPlaylistName, setNewPlaylistName] = useState('');
+  const [createError, setCreateError] = useState<string | null>(null);
+  const [creating, setCreating] = useState(false);
 
   const handleUploadComplete = async (fileId: string, publicUrl: string, file: File) => {
     const fileType = file.type === 'application/pdf' ? 'pdf' : 'image';
@@ -21,6 +40,33 @@ export default function Home() {
   const sortedItems = playlist
     ? [...playlist.items].sort((a, b) => a.position - b.position)
     : [];
+
+  const activePlaylist = playlists.find((p) => p.isActive);
+  const selectedPlaylist = playlists.find((p) => p.id === selectedPlaylistId);
+
+  const handleCreatePlaylist = async () => {
+    const trimmed = newPlaylistName.trim();
+    if (!trimmed) {
+      setCreateError('名前を入力してください');
+      return;
+    }
+    if (trimmed.length > 50) {
+      setCreateError('50文字以内で入力してください');
+      return;
+    }
+    setCreating(true);
+    setCreateError(null);
+    try {
+      await createPlaylist(trimmed);
+      setShowCreateModal(false);
+      setNewPlaylistName('');
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : '作成に失敗しました';
+      setCreateError(message);
+    } finally {
+      setCreating(false);
+    }
+  };
 
   return (
     <div
@@ -184,6 +230,51 @@ export default function Home() {
               プレイリスト管理
             </h2>
 
+            {/* Playlist selector tabs */}
+            {!playlistsLoading && playlists.length > 0 && (
+              <PlaylistSelector
+                playlists={playlists}
+                selectedPlaylistId={selectedPlaylistId}
+                onSelect={selectPlaylist}
+                onCreateNew={() => setShowCreateModal(true)}
+                maxPlaylists={3}
+                loading={loading}
+              />
+            )}
+
+            {/* Selected playlist actions */}
+            {selectedPlaylist && playlists.length > 1 && (
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  marginBottom: '16px',
+                  flexWrap: 'wrap',
+                }}
+              >
+                {!selectedPlaylist.isActive && (
+                  <PlaylistActivateButton
+                    playlist={selectedPlaylist}
+                    currentActiveName={activePlaylist?.name ?? ''}
+                    onActivate={activatePlaylist}
+                    loading={loading}
+                  />
+                )}
+                <PlaylistNameEditor
+                  playlistId={selectedPlaylist.id}
+                  currentName={selectedPlaylist.name}
+                  onRename={renamePlaylist}
+                  loading={loading}
+                />
+                <PlaylistDeleteButton
+                  playlist={selectedPlaylist}
+                  onDelete={deletePlaylist}
+                  loading={loading}
+                />
+              </div>
+            )}
+
             {loading && !playlist ? (
               <Card>
                 <div
@@ -313,6 +404,132 @@ export default function Home() {
           globalSettings={playlist.globalSettings}
           orientation={playlist.orientation}
         />
+      )}
+
+      {/* Create playlist modal */}
+      {showCreateModal && (
+        <div
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(0,0,0,0.4)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1000,
+            padding: '24px',
+          }}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              setShowCreateModal(false);
+              setNewPlaylistName('');
+              setCreateError(null);
+            }
+          }}
+        >
+          <div
+            style={{
+              background: '#fff',
+              borderRadius: '16px',
+              padding: '28px',
+              maxWidth: '400px',
+              width: '100%',
+              boxShadow: '0 20px 60px rgba(0,0,0,0.2)',
+            }}
+          >
+            <h3
+              style={{
+                margin: '0 0 20px',
+                fontSize: '18px',
+                fontWeight: 700,
+                color: 'var(--text-primary, #1D1D1F)',
+                letterSpacing: '-0.01em',
+              }}
+            >
+              新しいプレイリストを作成
+            </h3>
+            <div style={{ marginBottom: '20px' }}>
+              <label
+                style={{
+                  display: 'block',
+                  fontSize: '14px',
+                  fontWeight: 500,
+                  color: 'var(--text-secondary, #6E6E73)',
+                  marginBottom: '8px',
+                }}
+              >
+                プレイリスト名
+              </label>
+              <input
+                type="text"
+                value={newPlaylistName}
+                onChange={(e) => setNewPlaylistName(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') void handleCreatePlaylist();
+                  if (e.key === 'Escape') {
+                    setShowCreateModal(false);
+                    setNewPlaylistName('');
+                    setCreateError(null);
+                  }
+                }}
+                placeholder="例: 春メニュー"
+                maxLength={50}
+                autoFocus
+                style={{
+                  width: '100%',
+                  padding: '10px 12px',
+                  borderRadius: '8px',
+                  border: `1px solid ${createError ? '#FF3B30' : '#D1D1D6'}`,
+                  fontSize: '15px',
+                  color: 'var(--text-primary, #1D1D1F)',
+                  outline: 'none',
+                  boxSizing: 'border-box',
+                }}
+              />
+              {createError && (
+                <p style={{ margin: '6px 0 0', fontSize: '13px', color: '#FF3B30' }}>{createError}</p>
+              )}
+            </div>
+            <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
+              <button
+                onClick={() => {
+                  setShowCreateModal(false);
+                  setNewPlaylistName('');
+                  setCreateError(null);
+                }}
+                disabled={creating}
+                style={{
+                  padding: '10px 20px',
+                  borderRadius: '8px',
+                  border: '1px solid var(--border, #D1D1D6)',
+                  background: 'transparent',
+                  color: 'var(--text-secondary, #6E6E73)',
+                  fontSize: '15px',
+                  fontWeight: 500,
+                  cursor: 'pointer',
+                }}
+              >
+                キャンセル
+              </button>
+              <button
+                onClick={() => void handleCreatePlaylist()}
+                disabled={creating || !newPlaylistName.trim()}
+                style={{
+                  padding: '10px 20px',
+                  borderRadius: '8px',
+                  border: 'none',
+                  background: creating || !newPlaylistName.trim() ? '#86868B' : '#007AFF',
+                  color: '#fff',
+                  fontSize: '15px',
+                  fontWeight: 600,
+                  cursor: creating || !newPlaylistName.trim() ? 'not-allowed' : 'pointer',
+                }}
+              >
+                {creating ? '作成中...' : '作成する'}
+              </button>
+            </div>
+          </div>
+        </div>
       )}
 
       {/* Keyframe for spin animation */}

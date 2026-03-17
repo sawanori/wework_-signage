@@ -68,17 +68,18 @@ export async function PUT(request: Request): Promise<Response> {
     fields.push('version = ?', 'updated_at = unixepoch()');
     args.push(generateVersion());
 
-    // Use deviceId if provided, otherwise playlistId
-    if (deviceId) {
-      args.push(deviceId);
+    // playlistId takes priority over deviceId (DA-C-004 fix)
+    if (playlistId !== undefined) {
+      args.push(playlistId);
       await db.execute({
-        sql: `UPDATE playlists SET ${fields.join(', ')} WHERE device_id = ?`,
+        sql: `UPDATE playlists SET ${fields.join(', ')} WHERE id = ?`,
         args,
       });
     } else {
-      args.push(playlistId!);
+      // deviceId specified without playlistId: update only active playlist (C-003 fix)
+      args.push(deviceId!);
       await db.execute({
-        sql: `UPDATE playlists SET ${fields.join(', ')} WHERE id = ?`,
+        sql: `UPDATE playlists SET ${fields.join(', ')} WHERE device_id = ? AND is_active = 1`,
         args,
       });
     }

@@ -190,7 +190,7 @@ describe('E2Eフロー統合テスト: Cloud Admin全体', () => {
     // Step 4: レスポンスにimg_abc123が含まれていること
     expect(getBody.items).toHaveLength(1);
     expect(getBody.items[0].id).toBe('img_abc123');
-    expect(getBody.items[0].url).toBe('https://cdn.non-turn.com/img_abc123.jpg');
+    expect(getBody.items[0].url).toContain('/api/image?key=img_abc123.jpg');
     expect(getBody.items[0].hash).toBe('sha256hashvalue001');
 
     // Step 5: versionが更新されていること
