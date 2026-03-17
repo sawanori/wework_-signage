@@ -28,8 +28,7 @@ export default function RootLayout({
         </nav>
         {/* Main content pushed below nav */}
         <main
-          className="pt-12"
-          style={{ minHeight: 'calc(100vh - 48px)' }}
+          style={{ paddingTop: '64px', minHeight: 'calc(100vh - 48px)' }}
         >
           {children}
         </main>
