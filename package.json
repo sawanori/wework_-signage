@@ -1,0 +1,10 @@
+{
+  "name": "non-turn-signage",
+  "private": true,
+  "workspaces": [
+    "local-viewer",
+    "cloud-admin",
+    "sync-agent",
+    "shared"
+  ]
+}

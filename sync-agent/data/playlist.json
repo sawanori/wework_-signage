@@ -1,0 +1,11 @@
+{
+  "version": "",
+  "orientation": "portrait",
+  "globalSettings": {
+    "fadeDurationMs": 2000,
+    "intervalMs": 10000
+  },
+  "deviceId": "",
+  "storeId": "",
+  "items": []
+}
