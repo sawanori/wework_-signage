@@ -22,7 +22,7 @@ export async function POST(request: Request): Promise<Response> {
     );
   }
 
-  const deviceId = (body.deviceId as string) ?? '';
+  let deviceId = (body.deviceId as string) ?? '';
   const playlistIdFromBody = body.playlistId as number | undefined;
   const itemId = (body.itemId as string) ?? (body.id as string) ?? '';
   const publicUrl = (body.publicUrl as string) ?? '';
@@ -67,6 +67,7 @@ export async function POST(request: Request): Promise<Response> {
       const playlist = playlistResult.rows[0];
       playlistId = playlist.id as number;
       storeId = playlist.store_id as string;
+      deviceId = (playlist.device_id as string) ?? deviceId;
     } else {
       // Fall back to resolving active playlist from deviceId (backward compat)
       const playlistResult = await db.execute({
