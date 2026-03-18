@@ -42,10 +42,7 @@ export function FileUploader({ onUploadComplete }: FileUploaderProps) {
       if (file.type === 'application/pdf') {
         try {
           const pdfjsLib = await import('pdfjs-dist');
-          pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
-            'pdfjs-dist/build/pdf.worker.mjs',
-            import.meta.url
-          ).toString();
+          pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.mjs`;
           const arrayBuffer = await file.arrayBuffer();
           const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
           if (pdf.numPages > PDF_PAGE_LIMIT) {

@@ -18,7 +18,7 @@ export async function getActivePlaylist(deviceId: string): Promise<PlaylistRespo
     return null;
   }
 
-  const row = playlistResult.rows[0] as unknown[];
+  const row = playlistResult.rows[0] as unknown as unknown[];
   const playlistId = row[0] as number;
   const devId = row[1] as string;
   const storeId = row[2] as string;
@@ -33,7 +33,7 @@ export async function getActivePlaylist(deviceId: string): Promise<PlaylistRespo
     args: [playlistId],
   });
 
-  const items: PlaylistItem[] = (itemsResult.rows as unknown[][]).map((itemRow) => ({
+  const items: PlaylistItem[] = (itemsResult.rows as unknown as unknown[][]).map((itemRow) => ({
     id: itemRow[0] as string,
     url: itemRow[1] as string,
     hash: itemRow[2] as string,
@@ -76,7 +76,7 @@ export async function getPlaylistById(playlistId: number, deviceId: string): Pro
     return null;
   }
 
-  const row = playlistResult.rows[0] as unknown[];
+  const row = playlistResult.rows[0] as unknown as unknown[];
   const pid = row[0] as number;
   const devId = row[1] as string;
   const storeId = row[2] as string;
@@ -93,7 +93,7 @@ export async function getPlaylistById(playlistId: number, deviceId: string): Pro
     args: [pid],
   });
 
-  const items: PlaylistItem[] = (itemsResult.rows as unknown[][]).map((itemRow) => ({
+  const items: PlaylistItem[] = (itemsResult.rows as unknown as unknown[][]).map((itemRow) => ({
     id: itemRow[0] as string,
     url: itemRow[1] as string,
     hash: itemRow[2] as string,
@@ -138,9 +138,9 @@ export async function getPlaylistSummaries(deviceId: string): Promise<PlaylistLi
     return null;
   }
 
-  const storeId = (result.rows[0] as unknown[])[6] as string;
+  const storeId = (result.rows[0] as unknown as unknown[])[6] as string;
 
-  const playlists: PlaylistSummary[] = (result.rows as unknown[][]).map((row) => ({
+  const playlists: PlaylistSummary[] = (result.rows as unknown as unknown[][]).map((row) => ({
     id: row[0] as number,
     name: row[1] as string,
     isActive: (row[2] as number) === 1,
@@ -166,7 +166,7 @@ export async function createPlaylist(deviceId: string, name: string): Promise<Cr
     args: [deviceId],
   });
 
-  const countRow = countResult.rows[0] as unknown[];
+  const countRow = countResult.rows[0] as unknown as unknown[];
   const count = countRow[0] as number;
   const storeId = countRow[1] as string;
 
@@ -185,7 +185,7 @@ export async function createPlaylist(deviceId: string, name: string): Promise<Cr
     args: [deviceId, storeId, name, generateVersion()],
   });
 
-  const newId = ((insertResult.rows[0] as unknown[])[0]) as number;
+  const newId = ((insertResult.rows[0] as unknown as unknown[])[0]) as number;
 
   return {
     playlistId: newId,
@@ -208,7 +208,7 @@ export async function activatePlaylist(playlistId: number, deviceId: string): Pr
     throw new Error('PLAYLIST_NOT_FOUND');
   }
 
-  const row = checkResult.rows[0] as unknown[];
+  const row = checkResult.rows[0] as unknown as unknown[];
   const name = row[1] as string;
 
   // バッチトランザクション: 全部非アクティブ → 指定IDをアクティブ + version更新
@@ -259,7 +259,7 @@ export async function deletePlaylist(playlistId: number, deviceId: string): Prom
     throw new Error('PLAYLIST_NOT_FOUND');
   }
 
-  const isActive = ((checkResult.rows[0] as unknown[])[0] as number) === 1;
+  const isActive = ((checkResult.rows[0] as unknown as unknown[])[0] as number) === 1;
   if (isActive) {
     throw new Error('CANNOT_DELETE_ACTIVE');
   }

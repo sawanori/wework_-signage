@@ -38,7 +38,7 @@ export async function GET(request: Request): Promise<Response> {
         );
       }
 
-      const row = playlistResult.rows[0] as unknown[];
+      const row = playlistResult.rows[0] as unknown as unknown[];
       const pid = row[0] as number;
       const devId = row[1] as string;
       const storeId = row[2] as string;
@@ -56,7 +56,7 @@ export async function GET(request: Request): Promise<Response> {
       });
 
       const baseUrl = new URL(request.url).origin;
-      const items: PlaylistItem[] = (itemsResult.rows as unknown[][]).map((itemRow) => {
+      const items: PlaylistItem[] = (itemsResult.rows as unknown as unknown[][]).map((itemRow) => {
         const publicUrl = itemRow[1] as string;
         const key = publicUrl.split('/').pop() ?? '';
         return {
@@ -103,7 +103,7 @@ export async function GET(request: Request): Promise<Response> {
       );
     }
 
-    const row = playlistResult.rows[0] as unknown[];
+    const row = playlistResult.rows[0] as unknown as unknown[];
     const playlistId = row[0] as number;
     const devId = row[1] as string;
     const storeId = row[2] as string;
@@ -119,7 +119,7 @@ export async function GET(request: Request): Promise<Response> {
     });
 
     const baseUrl = new URL(request.url).origin;
-    const items: PlaylistItem[] = (itemsResult.rows as unknown[][]).map((itemRow) => {
+    const items: PlaylistItem[] = (itemsResult.rows as unknown as unknown[][]).map((itemRow) => {
       const publicUrl = itemRow[1] as string;
       // Extract the R2 key from the URL for the image proxy
       const key = publicUrl.split('/').pop() ?? '';

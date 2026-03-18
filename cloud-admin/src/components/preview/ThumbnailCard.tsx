@@ -75,10 +75,7 @@ function PdfThumbnail({ url }: { url: string }) {
       if (!canvasRef.current) return;
       try {
         const pdfjsLib = await import('pdfjs-dist');
-        pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
-          'pdfjs-dist/build/pdf.worker.mjs',
-          import.meta.url
-        ).toString();
+        pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.mjs`;
 
         const pdf = await pdfjsLib.getDocument(url).promise;
         if (cancelled) return;
