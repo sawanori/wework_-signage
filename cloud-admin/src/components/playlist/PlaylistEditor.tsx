@@ -5,6 +5,7 @@ import type { PlaylistResponse, PlaylistItem } from '@non-turn/shared';
 import { Card } from '@/components/ui/Card';
 import { SortableList } from './SortableList';
 import { GlobalSettingsPanel } from './GlobalSettingsPanel';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 interface PlaylistEditorProps {
   playlist: PlaylistResponse;
@@ -25,13 +26,14 @@ export function PlaylistEditor({
   onSaveSettings,
   loading = false,
 }: PlaylistEditorProps) {
+  const isMobile = useIsMobile();
   const sortedItems = [...playlist.items].sort((a, b) => a.position - b.position);
 
   return (
     <div
       style={{
         display: 'grid',
-        gridTemplateColumns: '1fr 300px',
+        gridTemplateColumns: isMobile ? '1fr' : '1fr 300px',
         gap: '20px',
         alignItems: 'start',
       }}

@@ -3,11 +3,25 @@
 import React from 'react';
 import type { PlaylistItem as PlaylistItemType } from '@non-turn/shared';
 
+export const AUTO_RESET_DELAY_MS = 3000;
+
+interface GetDeleteButtonOpacityParams {
+  isMobile: boolean;
+  isHovered: boolean;
+  confirmDelete: boolean;
+}
+
+export function getDeleteButtonOpacity({ isMobile, isHovered, confirmDelete }: GetDeleteButtonOpacityParams): number {
+  if (isMobile) return 1;
+  return isHovered || confirmDelete ? 1 : 0;
+}
+
 interface PlaylistItemProps {
   item: PlaylistItemType;
   onDelete: (id: string) => void;
   dragHandleProps?: React.HTMLAttributes<HTMLDivElement>;
   isDragging?: boolean;
+  isMobile?: boolean;
 }
 
 function formatDuration(ms: number | null): string {
@@ -20,9 +34,16 @@ export function PlaylistItemCard({
   onDelete,
   dragHandleProps,
   isDragging = false,
+  isMobile = false,
 }: PlaylistItemProps) {
   const [isHovered, setIsHovered] = React.useState(false);
   const [confirmDelete, setConfirmDelete] = React.useState(false);
+
+  React.useEffect(() => {
+    if (!confirmDelete) return;
+    const id = setTimeout(() => setConfirmDelete(false), AUTO_RESET_DELAY_MS);
+    return () => clearTimeout(id);
+  }, [confirmDelete]);
 
   const handleDeleteClick = () => {
     if (confirmDelete) {
@@ -178,7 +199,7 @@ export function PlaylistItemCard({
           cursor: 'pointer',
           transition: 'all 0.15s ease',
           flexShrink: 0,
-          opacity: isHovered || confirmDelete ? 1 : 0,
+          opacity: getDeleteButtonOpacity({ isMobile, isHovered, confirmDelete }),
           fontFamily: 'inherit',
         }}
       >

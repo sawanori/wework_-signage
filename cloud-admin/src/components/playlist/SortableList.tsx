@@ -5,7 +5,8 @@ import {
   DndContext,
   closestCenter,
   KeyboardSensor,
-  PointerSensor,
+  MouseSensor,
+  TouchSensor,
   useSensor,
   useSensors,
   DragEndEvent,
@@ -66,9 +67,15 @@ export function SortableList({ items, onReorder, onDelete }: SortableListProps) 
   const [activeId, setActiveId] = React.useState<string | null>(null);
 
   const sensors = useSensors(
-    useSensor(PointerSensor, {
+    useSensor(MouseSensor, {
       activationConstraint: {
-        distance: 8, // Require 8px movement before drag starts
+        distance: 8,
+      },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 250,
+        tolerance: 5,
       },
     }),
     useSensor(KeyboardSensor, {

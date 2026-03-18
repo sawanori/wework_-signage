@@ -3,6 +3,7 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { useUpload } from '@/hooks/useUpload';
 import { UploadProgress } from './UploadProgress';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 interface FileUploaderProps {
   onUploadComplete?: (fileId: string, publicUrl: string, file: File) => void;
@@ -20,6 +21,7 @@ function formatFileSize(bytes: number): string {
 }
 
 export function FileUploader({ onUploadComplete }: FileUploaderProps) {
+  const isMobile = useIsMobile();
   const [isDragging, setIsDragging] = useState(false);
   const [currentFile, setCurrentFile] = useState<File | null>(null);
   const [pdfPageWarning, setPdfPageWarning] = useState(false);
@@ -124,7 +126,7 @@ export function FileUploader({ onUploadComplete }: FileUploaderProps) {
         style={{
           border: `1px dashed ${isDragging ? '#3B82F6' : '#CCCCCC'}`,
           borderRadius: '10px',
-          padding: '40px 32px',
+          padding: isMobile ? '28px 16px' : '40px 32px',
           textAlign: 'center',
           cursor: isUploading ? 'default' : 'pointer',
           background: isDragging ? 'rgba(59, 130, 246, 0.04)' : 'transparent',
@@ -183,7 +185,7 @@ export function FileUploader({ onUploadComplete }: FileUploaderProps) {
             transition: 'color 0.15s ease',
           }}
         >
-          {isDragging ? 'ここにドロップ' : 'ファイルをドロップ、またはクリックして選択'}
+          {isDragging ? 'ここにドロップ' : isMobile ? 'タップしてファイルを選択' : 'ファイルをドロップ、またはクリックして選択'}
         </p>
         <p
           style={{

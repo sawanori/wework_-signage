@@ -11,6 +11,7 @@ import { PlaylistPreview } from '@/components/preview/PlaylistPreview';
 import { FullscreenPreview } from '@/components/preview/FullscreenPreview';
 import { Card } from '@/components/ui/Card';
 import { usePlaylistEditor } from '@/hooks/usePlaylistEditor';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 export default function Home() {
   const {
@@ -26,6 +27,7 @@ export default function Home() {
     deletePlaylist,
   } = usePlaylistEditor();
   const { playlist, loading, error, playlists, selectedPlaylistId, playlistsLoading } = state;
+  const isMobile = useIsMobile();
   const [isFullscreenOpen, setIsFullscreenOpen] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [newPlaylistName, setNewPlaylistName] = useState('');
@@ -73,7 +75,7 @@ export default function Home() {
       style={{
         maxWidth: '1600px',
         margin: '0 auto',
-        padding: '40px 32px 80px',
+        padding: isMobile ? '24px 16px 80px' : '40px 32px 80px',
       }}
     >
       {/* Page header */}
@@ -84,6 +86,7 @@ export default function Home() {
           alignItems: 'flex-end',
           justifyContent: 'space-between',
           gap: '24px',
+          flexWrap: 'wrap',
           animation: 'fadeInUp 0.3s ease forwards',
         }}
       >
@@ -91,7 +94,7 @@ export default function Home() {
           <h1
             style={{
               margin: '0 0 6px',
-              fontSize: '36px',
+              fontSize: isMobile ? '24px' : '36px',
               fontWeight: 600,
               lineHeight: 1.1,
               letterSpacing: '-0.025em',
@@ -176,7 +179,7 @@ export default function Home() {
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: playlist && sortedItems.length > 0 ? '1fr 500px' : '1fr',
+          gridTemplateColumns: (!isMobile && playlist && sortedItems.length > 0) ? '1fr 500px' : '1fr',
           gap: '32px',
           alignItems: 'start',
         }}
@@ -324,8 +327,8 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Right column: mini preview panel */}
-        {playlist && sortedItems.length > 0 && (
+        {/* Right column: mini preview panel (desktop only) */}
+        {!isMobile && playlist && sortedItems.length > 0 && (
           <div
             style={{
               position: 'sticky',
